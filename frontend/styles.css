@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+@font-face {
+    src: url("./assets/Quicksand-Regular.ttf");
+    font-family: "Quicksand";
+}
+
+@font-face {
+    src: url("./assets/RobotoFlex-Regular.ttf");
+    font-family: "RobotoFlex";
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+}
+
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+    width: 100%;
+    flex: 1;
+    backdrop-filter: blur(4px);
+    background: radial-gradient(ellipse at 70% 20%, #94b9ff77, #ffffff00 40%),
+        radial-gradient(ellipse at 30% 60%, #94baff77, #ffffff00 60%);
+}
+
+.main-menu > h1 {
+    font-size: 3rem;
+    font-family: "Quicksand";
+}
+
+.main-menu-buttons {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    padding: 0 1em;
+    width: 100%;
+    font-family: "RobotoFlex";
+}
+
+.main-menu-button {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border-radius: 99px;
+    font-size: 1.6rem;
+    color: black;
+    border: 3px solid black;
+    cursor: pointer;
+    padding: 0.2em;
+    transition: 0.1s;
+}
+
+.main-menu-button:hover {
+    color: #8888ff;
+}
+
+.main-menu-airplane {
+    position: absolute;
+    width: 1000px;
+    z-index: -1;
+    left: -100px;
+    top: 100px;
+    animation: hover 5s ease-in-out infinite alternate;
+}
+
+@keyframes hover {
+    to {
+        top: 150px;
+    }
+}
