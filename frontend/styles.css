@@ -1,3 +1,5 @@
+/* Globaalit */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -21,6 +23,8 @@ body {
     min-height: 100dvh;
 }
 
+/* Main menu */
+
 .main-menu {
     display: flex;
     flex-direction: column;
@@ -35,7 +39,7 @@ body {
 }
 
 .main-menu > h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-family: "Quicksand";
 }
 
@@ -57,7 +61,7 @@ body {
     border-radius: 99px;
     font-size: 1.6rem;
     color: black;
-    border: 3px solid black;
+    border: 2px solid black;
     cursor: pointer;
     padding: 0.2em;
     transition: 0.1s;
@@ -74,6 +78,49 @@ body {
     left: -100px;
     top: 100px;
     animation: hover 5s ease-in-out infinite alternate;
+}
+
+.main-menu-userkey {
+    background: rgba(128, 192, 128, 0.8);
+    padding: 1em;
+    font-size: 1.4rem;
+    font-family: "Quicksand";
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.main-menu-continue {
+    border: 3px solid #00e700;
+    font-size: 1.5rem;
+    border-radius: 99px;
+    padding: 0.5em 2em;
+    background: transparent;
+    color: black;
+    font-family: "Quicksand";
+    transition: 0.1s;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.main-menu-continue:hover {
+    background: #00e700;
+}
+
+.main-menu-create-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.main-menu-create-game > p:first-child {
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: "Quicksand";
+    background: #ffffff77;
+    backdrop-filter: blur(8px);
+    padding: 0.2rem;
+    border-radius: 8px;
 }
 
 @keyframes hover {
