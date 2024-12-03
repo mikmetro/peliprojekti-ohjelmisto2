@@ -41,3 +41,18 @@ class User():
         cursor.execute('UPDATE users SET money = ? WHERE id = ?', (money, self.id))
         connection.commit()
         connection.close()
+
+    def get_co_level(self):
+        connection = db.create_connection()
+        cursor = connection.cursor()
+        cursor.execute('SELECT co_level FROM users WHERE id = ?', (self.id,))
+        co_level = cursor.fetchone()[0]
+        connection.close()
+        return co_level
+
+    def set_co_level(self, co_level):
+        connection = db.create_connection()
+        cursor = connection.cursor()
+        cursor.execute('UPDATE users SET co_level = ? WHERE id = ?', (co_level, self.id))
+        connection.commit()
+        connection.close()
