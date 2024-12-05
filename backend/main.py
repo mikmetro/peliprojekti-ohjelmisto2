@@ -25,7 +25,12 @@ def handle_connect():
 def handle_purchase(data):
     #Handle purchase logic
     print("Purchase data received", data)
+    #Get and check user money WIP
+    user = User(id)
+    user.get_money()
+
     #Process the purchase
+
 
     response = {'status': 'success', 'message': 'Purchase completed'}
     socketio.emit('purchase_response', response)
