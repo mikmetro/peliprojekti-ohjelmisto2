@@ -26,9 +26,11 @@ def handle_purchase(data):
     #Handle purchase logic
     print("Purchase data received", data)
     #Get and check user money WIP
-    user = User(id)
-    user.get_money()
-
+    data = json.loads(data)
+    user = User(data["id"])
+    airport = Airport(data["airport_id"])
+    if user.get_money() >= airport.get_price():
+        pass
     #Process the purchase
 
 
