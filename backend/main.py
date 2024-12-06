@@ -1,10 +1,12 @@
 import flask
 from flask_socketio import SocketIO
+from flask_cors import CORS
 import uuid
 import json
 import db
 from user import User
 app = flask.Flask(__name__)
+CORS(app)
 
 socketio = SocketIO(app)
 
