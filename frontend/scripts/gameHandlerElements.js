@@ -39,10 +39,10 @@ const createMap = () => {
   const gameMapImage = document.createElement("img");
   gameMapImage.src = "/assets/world_map.png";
   drawPointsOnMap(gameMap, [
-    [60.3179, 24.9596],
-    [51.468, 0.4551],
-    [-33.3898, -70.7944],
-    [33.9422, -118.4036],
+    [60.3179, 24.9596, "HEL"],
+    [51.468, 0.4551, "LAX"],
+    [-33.3898, -70.7944, "JOE"],
+    [33.9422, -118.4036, "FGA"],
     [0, 0],
   ]);
 
@@ -59,18 +59,25 @@ const drawPointsOnMap = (mapWrapper, coordinates) => {
     /* Tarkistus jos jokin kordinaatti puuttuu etc */
     if (
       (!x[0] && typeof x[0] !== "number") ||
-      (!x[1] && typeof x[1] !== "number")
+      (!x[1] && typeof x[1] !== "number") ||
+      (!x[2] && typeof x[2] !== "string")
     ) {
-      console.error(`Invalid coordinates X: "${x[0]}", Y: "${x[1]}"`);
+      console.error(
+        `Invalid coordinates X: "${x[0]}", Y: "${x[1]}", Airport: "${x[2]}"`,
+      );
       continue;
     }
 
     const mapButton = document.createElement("button");
     mapButton.classList.add("game-map-button");
 
+    mapButton.addEventListener("click", (e) => {
+      // displayAirpot(x[2]);
+    });
+
     const point = coordinatesToPercent(x[0], x[1]);
-    mapButton.style.left = `calc(${point.x} - 4px)`;
-    mapButton.style.top = `calc(${point.y} - 4px)`;
+    mapButton.style.left = `calc(${point.x} - 1em)`;
+    mapButton.style.top = `calc(${point.y} - 1em)`;
 
     mapWrapper.appendChild(mapButton);
   }

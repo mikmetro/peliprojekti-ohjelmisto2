@@ -8,7 +8,7 @@ app = flask.Flask(__name__)
 
 socketio = SocketIO(app)
 
-@app.route('/user')
+@app.route('/user/create')
 def user():
     random_id = str(uuid.uuid4())
     bool = db.create_user(random_id)
@@ -16,7 +16,12 @@ def user():
         return json.dumps({'id': str(random_id)})
     else:
         return json.dumps({'error': 'User could not be created.'})
-    
+
+@app.route("/game/airports")
+def all_airports():
+    list_of_airports = db.get_airports()
+    return json.dumps(list_of_airports)
+
 @socketio.on('connect')
 def handle_connect():
     print("Client connected")
@@ -28,9 +33,9 @@ def handle_purchase(data):
     #Get and check user money WIP
     data = json.loads(data)
     user = User(data["id"])
-    airport = Airport(data["airport_id"])
-    if user.get_money() >= airport.get_price():
-        pass
+    # airport = Airport(data["airport_id"])
+    #if user.get_money() >= airport.get_price():
+    #    pass
     #Process the purchase
 
 
@@ -51,7 +56,7 @@ def handle_send(data):
     # Handle the send logic here
     print("Send data received:", data)
     # Process the send action (e.g., send a message, etc.)
-    
+
     response = {'status': 'success', 'message': 'Send action completed.'}
     socketio.emit('send_response', response)
 

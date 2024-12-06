@@ -212,11 +212,21 @@ body {
 }
 
 .game-map-button {
-    width: 1em;
-    height: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    cursor: pointer;
     border: none;
     border-radius: 50%;
     position: absolute;
+    background: transparent;
+    display: grid;
+    place-items: center;
+}
+
+.game-map-button::after {
+    content: "";
     background: red;
-    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
 }

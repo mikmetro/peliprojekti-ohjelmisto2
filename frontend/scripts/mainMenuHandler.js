@@ -1,4 +1,5 @@
 import gameHandler from "./gameHandler.js";
+import { API_URL } from "./constants.js";
 
 const mainMenuHandler = () => {
   const menuButtons = document.querySelector(".main-menu-buttons");
