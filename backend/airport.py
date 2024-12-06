@@ -45,18 +45,18 @@ class Airport():
         # connection.close()
         return name
 
-    def get_lat(self):
+    def get_coordinates(self):
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('SELECT latitude FROM airports WHERE id = ?', (self.airportId,))
-        lat = cursor.fetchone()[0]
+        cursor.execute('SELECT latitude, longitude FROM airports WHERE id = ?', (self.airportId,))
+        point = cursor.fetchone()
         # connection.close()
-        return lat
+        return point
 
-    def get_lon(self):
+    def get_price(self):
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('SELECT longitude FROM airports WHERE id = ?', (self.airportId,))
-        lon = cursor.fetchone()[0]
+        cursor.execute('SELECT price FROM airports WHERE id = ?', (self.airportId,))
+        price = cursor.fetchone()[0]
         # connection.close()
-        return lon
+        return price

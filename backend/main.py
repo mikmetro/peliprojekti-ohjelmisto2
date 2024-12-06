@@ -5,13 +5,14 @@ import uuid
 import json
 import db
 from user import User
+from airport import Airport
 app = flask.Flask(__name__)
 CORS(app)
 
 socketio = SocketIO(app)
 
 @app.route('/user/create')
-def user():
+def user_create():
     random_id = str(uuid.uuid4())
     bool = db.create_user(random_id)
     if bool:
@@ -34,11 +35,12 @@ def handle_purchase(data):
     print("Purchase data received", data)
     #Get and check user money WIP
     data = json.loads(data)
+
     user = User(data["id"])
-    # airport = Airport(data["airport_id"])
-    #if user.get_money() >= airport.get_price():
-    #    pass
-    #Process the purchase
+    airport = Airport(None, data["airport_id"])
+    if user.get_money() >= airport.get_price():
+        pass
+    # Process the purchase
 
 
     response = {'status': 'success', 'message': 'Purchase completed'}
