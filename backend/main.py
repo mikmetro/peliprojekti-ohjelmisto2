@@ -63,8 +63,11 @@ def handle_send(data):
     socketio.emit('send_response', response)
 
 def main():
-    db.init_db()
     socketio.run(app.run(host='localhost', port=5500), debug=True)
 
 if __name__ == '__main__':
+    db.init_db()
+    db.create_user('testuser')
+    user = User('testuser')
+    print(user.get_airports()[0].get_country())
     main()

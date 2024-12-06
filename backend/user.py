@@ -1,5 +1,6 @@
 import db
-import json
+from airport import Airport
+
 class User():
     def __init__(self, id):
         self.id = id
@@ -8,46 +9,53 @@ class User():
         cursor.execute('SELECT * FROM users WHERE id = ?', (self.id,))
         if cursor.fetchone() is None:
             raise ValueError('User does not exist')
-        connection.close()
+        # connection.close()
+        self.unlock_airport(421) # Helsingin lentoasema, default airport.
 
     def get_money(self):
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute('SELECT money FROM users WHERE id = ?', (self.id,))
         money = cursor.fetchone()[0]
-        connection.close()
+        # connection.close()
         return money
 
     def get_airports(self):
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('SELECT airports FROM users WHERE id = ?', (self.id,))
-        airports = cursor.fetchone()[0]
-        connection.close()
-        return json.loads(airports)
+        airports = []
+        cursor.execute('SELECT id, airport_id FROM user_airports WHERE owner = ?', (self.id,))
+        for row in cursor.fetchall():
+            airports.append(Airport(row[0], row[1]))
+        # connection.close()
+        return airports
 
-    def unlock_airport(self, airport):
-        airports = self.get_airports()
-        airports.append(airport)
+    def unlock_airport(self, airportId):
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('UPDATE users SET airports = ? WHERE id = ?', (json.dumps(airports), self.id))
+        # Check if it's already unlocked.
+        cursor.execute('SELECT * FROM user_airports WHERE owner = ? AND airport_id = ?', (self.id, airportId))
+        if cursor.fetchone() is not None:
+            # connection.close()
+            return False # Airport already unlocked, return False and do not unlock it again.
+        cursor.execute('INSERT INTO user_airports (owner, airport_id, level) VALUES (?, ?, ?)', (self.id, airportId, '1'))
         connection.commit()
-        connection.close()
+        # connection.close()
+        return True
 
     def set_money(self, money):
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute('UPDATE users SET money = ? WHERE id = ?', (money, self.id))
         connection.commit()
-        connection.close()
+        # connection.close()
 
     def get_co_level(self):
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute('SELECT co_level FROM users WHERE id = ?', (self.id,))
         co_level = cursor.fetchone()[0]
-        connection.close()
+        # connection.close()
         return co_level
 
     def set_co_level(self, co_level):
@@ -55,4 +63,4 @@ class User():
         cursor = connection.cursor()
         cursor.execute('UPDATE users SET co_level = ? WHERE id = ?', (co_level, self.id))
         connection.commit()
-        connection.close()
+        # connection.close()
