@@ -1,3 +1,6 @@
+import { ALL_AIRPORTS } from "./preloadAssets.js";
+import { displayShop } from "./shopHandler.js";
+
 const createHeader = () => {
   // Header missä näkyy pelaajan tilanne (raha etc)
   const gameHeader = document.createElement("header");
@@ -38,13 +41,11 @@ const createMap = () => {
 
   const gameMapImage = document.createElement("img");
   gameMapImage.src = "/assets/world_map.png";
-  drawPointsOnMap(gameMap, [
-    [60.3179, 24.9596, "HEL"],
-    [51.468, 0.4551, "LAX"],
-    [-33.3898, -70.7944, "JOE"],
-    [33.9422, -118.4036, "FGA"],
-    [0, 0],
-  ]);
+
+  drawPointsOnMap(
+    gameMap,
+    Object.entries(ALL_AIRPORTS).map((i) => [i[1].lat, i[1].lng, i[0]]),
+  );
 
   gameMap.appendChild(gameMapImage);
   gameMapContainer.appendChild(gameMap);
@@ -71,9 +72,7 @@ const drawPointsOnMap = (mapWrapper, coordinates) => {
     const mapButton = document.createElement("button");
     mapButton.classList.add("game-map-button");
 
-    mapButton.addEventListener("click", (e) => {
-      // displayAirpot(x[2]);
-    });
+    mapButton.addEventListener("click", () => displayShop(x[2]));
 
     const point = coordinatesToPercent(x[0], x[1]);
     mapButton.style.left = `calc(${point.x} - 1em)`;
@@ -85,10 +84,8 @@ const drawPointsOnMap = (mapWrapper, coordinates) => {
 
 const coordinatesToPercent = (lat, lng) => {
   /* vähä oudot arvot ku tää ei oo mikään yleinen kartta projektio. Nämä on silti suhtkoht OK */
-  const x =
-    (100 / 2 + 100 / (290 / lng)) * Math.cos(34 * (Math.PI / 180)) + "%";
-  const y =
-    (100 / 2 - 100 / (160 / lat)) / Math.cos(30 * (Math.PI / 180)) + "%";
+  const x = (50 + 100 / (290 / lng)) * Math.cos(34 * (Math.PI / 180)) + "%";
+  const y = (50 - 100 / (160 / lat)) / Math.cos(29 * (Math.PI / 180)) + "%";
   return { x, y };
 };
 

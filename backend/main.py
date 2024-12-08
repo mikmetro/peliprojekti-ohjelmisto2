@@ -6,10 +6,15 @@ import json
 import db
 from user import User
 from airport import Airport
+from upgrades import pre_calculate_upgrades
 app = flask.Flask(__name__)
 CORS(app)
 
 socketio = SocketIO(app)
+
+# Laitan vaan kaikki default lentokentät variableen, että ei tarvi kysyä databaselta joka request.
+ALL_DEFAULT_AIRPORTS_JSON = json.dumps(db.get_airports())
+ALL_UPGRADE_EFFECTS = pre_calculate_upgrades()
 
 @app.route('/user/create')
 def user_create():
@@ -22,8 +27,11 @@ def user_create():
 
 @app.route("/game/airports")
 def all_airports():
-    list_of_airports = db.get_airports()
-    return json.dumps(list_of_airports)
+    return ALL_DEFAULT_AIRPORTS_JSON
+
+@app.route("/game/upgrades")
+def all_upgrades():
+    return ALL_UPGRADE_EFFECTS
 
 @socketio.on('connect')
 def handle_connect():
