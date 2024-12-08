@@ -37,14 +37,18 @@ def handle_purchase(data):
     data = json.loads(data)
 
     user = User(data["id"])
+    response_y = {'status': 'success', 'message': 'Purchase completed'}
+    response_n = {'status': 'false', 'message': 'Purchase failed'}
     airport = Airport(None, data["airport_id"])
     if user.get_money() >= airport.get_price():
-        pass
+        return socketio.emit('purchase_response', response_y)
+    if user.get_money() < airport.get_price():
+        return socketio.emit('purchase_response', response_n)
     # Process the purchase
 
 
-    response = {'status': 'success', 'message': 'Purchase completed'}
-    socketio.emit('purchase_response', response)
+
+
 
 @socketio.on('upgrade')
 def handle_upgrade(data):
