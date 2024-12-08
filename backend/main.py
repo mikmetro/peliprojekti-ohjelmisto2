@@ -5,13 +5,19 @@ import uuid
 import json
 import db
 from user import User
+from airport import Airport
+from upgrades import pre_calculate_upgrades
 app = flask.Flask(__name__)
 CORS(app)
 
 socketio = SocketIO(app)
 
+# Laitan vaan kaikki default lentokentät variableen, että ei tarvi kysyä databaselta joka request.
+ALL_DEFAULT_AIRPORTS_JSON = json.dumps(db.get_airports())
+ALL_UPGRADE_EFFECTS = pre_calculate_upgrades()
+
 @app.route('/user/create')
-def user():
+def user_create():
     random_id = str(uuid.uuid4())
     bool = db.create_user(random_id)
     if bool:
@@ -21,8 +27,11 @@ def user():
 
 @app.route("/game/airports")
 def all_airports():
-    list_of_airports = db.get_airports()
-    return json.dumps(list_of_airports)
+    return ALL_DEFAULT_AIRPORTS_JSON
+
+@app.route("/game/upgrades")
+def all_upgrades():
+    return ALL_UPGRADE_EFFECTS
 
 @socketio.on('connect')
 def handle_connect():
@@ -34,11 +43,12 @@ def handle_purchase(data):
     print("Purchase data received", data)
     #Get and check user money WIP
     data = json.loads(data)
+
     user = User(data["id"])
-    # airport = Airport(data["airport_id"])
-    #if user.get_money() >= airport.get_price():
-    #    pass
-    #Process the purchase
+    airport = Airport(None, data["airport_id"])
+    if user.get_money() >= airport.get_price():
+        pass
+    # Process the purchase
 
 
     response = {'status': 'success', 'message': 'Purchase completed'}
@@ -63,8 +73,11 @@ def handle_send(data):
     socketio.emit('send_response', response)
 
 def main():
-    db.init_db()
     socketio.run(app.run(host='localhost', port=5500), debug=True)
 
 if __name__ == '__main__':
+    db.init_db()
+    db.create_user('testuser')
+    user = User('testuser')
+    print(user.get_airports()[0].get_country())
     main()
