@@ -49,7 +49,6 @@ def handle_purchase(data):
 
 
 
-
 @socketio.on('upgrade')
 def handle_upgrade(data):
     # Handle the upgrade logic here
