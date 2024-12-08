@@ -5,7 +5,7 @@ import uuid
 import json
 import db
 from user import User
-from airport import Airport
+from airport import Airport, OwnedAirport
 from upgrades import pre_calculate_upgrades
 app = flask.Flask(__name__)
 CORS(app)
@@ -45,7 +45,7 @@ def handle_purchase(data):
     data = json.loads(data)
 
     user = User(data["id"])
-    airport = Airport(None, data["airport_id"])
+    airport = OwnedAirport(None, data["airport_id"])
     if user.get_money() >= airport.get_price():
         pass
     # Process the purchase
