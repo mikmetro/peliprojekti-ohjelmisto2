@@ -15,10 +15,28 @@ const mainMenuHandler = () => {
 
       const userKeyTextBox = document.createElement("p");
 
-      /* Tee request player API:hin ja aseta userKey.textContent saadulle sala avaimelle. Tallenna nämä avaimet myös localStorageen, johonkin listaan/array */
 
-      userKeyTextBox.textContent =
-        "dnsa98shf9e9f8f3u91f298328u9f23u98f3282f3u89"; /* Tämä on testiksi, voit poistaa tämän */
+      async function getUserKey(){
+        try{
+          const response = await fetch('http://localhost:5500/user/create');
+          const data = await response.json();
+
+          let userKey = data['id'];
+          return userKey;
+
+        }catch(error){
+            console.log("Error in mainMenuHandler: getUserKey() Error on fetch");
+        }
+      }
+
+      let user_ID_key = await getUserKey();
+
+      const userKeys = JSON.parse(localStorage.getItem("userKeys")) || [];
+      userKeys.push(user_ID_key);
+      localStorage.setItem("userKeys", JSON.stringify(userKeys));
+
+      userKeyTextBox.textContent = user_ID_key;
+
       userKeyTextBox.classList.add("main-menu-userkey");
 
       const continueButton = document.createElement("button");

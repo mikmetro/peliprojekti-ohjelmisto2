@@ -1,5 +1,5 @@
 import sqlite3
-con = sqlite3.connect('database.db')
+con = sqlite3.connect('database.db', check_same_thread=False) # check_same_thread on pois, koska se muuten antoi erroreita, että objektit on haettu eri threadissä, kuin missä ne on tehty.
 
 def create_connection():
     return con
@@ -30,6 +30,16 @@ def get_airports():
     cursor.execute('SELECT * FROM airports')
     data = cursor.fetchall()
 
+    result = {}
+    for i in data:
+        result[i[5]] = {
+            "name": i[1],
+            "price": None, # None arvot vaihdetaan myöhemmin
+            "co_generation": None,
+            "lat": i[6],
+            "lng": i[7],
+        }
+
     # connection.close()
 
-    return data
+    return result
