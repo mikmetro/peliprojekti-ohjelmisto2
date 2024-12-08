@@ -13,45 +13,31 @@ def distance_km(point1, point2):
     c = 2 * asin(sqrt(a))
     r = 6371
     return c * r
-
 class Airport:
     def __init__(self, airportId):
         self.airportId = airportId
+        connection = db.create_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            'SELECT country, city, name, latitude, longitude, price FROM airports WHERE id = ?',
+            (self.airportId,)
+        )
+        self.airport_data = cursor.fetchone()
 
     def get_country(self):
-        connection = db.create_connection()
-        cursor = connection.cursor()
-        cursor.execute('SELECT country FROM airports WHERE id = ?', (self.airportId,))
-        country = cursor.fetchone()[0]
-        return country
+        return self.airport_data[0]
 
     def get_city(self):
-        connection = db.create_connection()
-        cursor = connection.cursor()
-        cursor.execute('SELECT city FROM airports WHERE id = ?', (self.airportId,))
-        city = cursor.fetchone()[0]
-        return city
+        return self.airport_data[1]
 
     def get_name(self):
-        connection = db.create_connection()
-        cursor = connection.cursor()
-        cursor.execute('SELECT name FROM airports WHERE id = ?', (self.airportId,))
-        name = cursor.fetchone()[0]
-        return name
+        return self.airport_data[2]
 
     def get_coordinates(self):
-        connection = db.create_connection()
-        cursor = connection.cursor()
-        cursor.execute('SELECT latitude, longitude FROM airports WHERE id = ?', (self.airportId,))
-        point = cursor.fetchone()
-        return point
+        return (self.airport_data[3], self.airport_data[4])
 
     def get_price(self):
-        connection = db.create_connection()
-        cursor = connection.cursor()
-        cursor.execute('SELECT price FROM airports WHERE id = ?', (self.airportId,))
-        price = cursor.fetchone()[0]
-        return price
+        return self.airport_data[5]
 
 class OwnedAirport(Airport):
     def __init__(self, id, airportId):
