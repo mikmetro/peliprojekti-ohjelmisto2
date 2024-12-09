@@ -28,6 +28,16 @@ def user_create():
     else:
         return json.dumps({'error': 'User could not be created.'})
 
+@app.route("/user/fetch")
+def fetch_user_data():
+    print(user.get_airports())
+    print(ALL_DEFAULT_AIRPORTS_JSON)
+    return {
+        "Money": user.get_money(),
+        "co_level": user.get_co_level(),
+        "airports": {i for i in user.get_airports()}
+        }
+
 @app.route("/game/airports")
 def all_airports():
     return ALL_DEFAULT_AIRPORTS_JSON
@@ -38,18 +48,21 @@ def all_upgrades():
 
 @socketio.on('connect')
 def handle_connect():
-    print(flask.request.sid, "connected")
+    #print(flask.request.sid, "connected")
+    print()
+
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    del socket_connections[flask.request.sid]
+    #del socket_connections[flask.request.sid]
+    print()
 
 @socketio.on('set_key')
 def handle_set_key(data):
     user = User(data)
     if user == None:
         return socketio.emit('set_key_response', {'status': False, 'message': 'user not found'})
-    socket_connections[flask.request.sid] = data
+    #socket_connections[flask.request.sid] = data
     socketio.emit('set_key_response', {'status': True, 'message': 'success'})
 
 @socketio.on('purchase')
