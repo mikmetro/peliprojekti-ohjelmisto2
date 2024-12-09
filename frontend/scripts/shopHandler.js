@@ -1,4 +1,5 @@
 import { ALL_AIRPORTS } from "./preloadAssets.js";
+import { purchaseAirport } from "./socketHandler.js";
 
 const displayShop = (icaoCode) => {
   const sideMenu = document.querySelector(".game-sidemenu");
@@ -11,13 +12,45 @@ const displayShop = (icaoCode) => {
 
 const purchaseMenuElements = (icaoCode) => {
   const titleSpan = document.createElement("span");
-  titleSpan.textContent = `${ALL_AIRPORTS[icaoCode].name} Airport`;
+  titleSpan.textContent = `Purchase ${ALL_AIRPORTS[icaoCode].name} Airport for ${ALL_AIRPORTS[icaoCode].price.toFixed(2)}$`;
 
   const purchaseButton = document.createElement("button");
   purchaseButton.textContent = "Purchase";
   purchaseButton.classList.add("game-sidemenu-purchase");
 
-  return [titleSpan, purchaseButton];
+  purchaseButton.addEventListener("click", () => {
+    purchaseAirport(icaoCode);
+  });
+
+  const cashGenerationWrapper = document.createElement("div");
+  cashGenerationWrapper.classList.add(
+    "game-sidemenu-detail-wrapper",
+    "money-generation",
+  );
+  const cashGenerationTitle = document.createElement("span");
+  cashGenerationTitle.textContent = "Cash Generation";
+  const cashGenerationEffect = document.createElement("span");
+  cashGenerationEffect.textContent = `${ALL_AIRPORTS[icaoCode].cash_generation}$/flight`;
+
+  cashGenerationWrapper.append(cashGenerationTitle, cashGenerationEffect);
+
+  const co2GenerationWrapper = document.createElement("div");
+  co2GenerationWrapper.classList.add(
+    "game-sidemenu-detail-wrapper",
+    "co2-generation",
+  );
+  const co2GenerationTitle = document.createElement("span");
+  co2GenerationTitle.textContent = "Co2 Generation";
+  const co2GenerationEffect = document.createElement("span");
+  co2GenerationEffect.textContent = `${ALL_AIRPORTS[icaoCode].co_generation}kg/flight`;
+
+  co2GenerationWrapper.append(co2GenerationTitle, co2GenerationEffect);
+
+  const detailsWrapper = document.createElement("div");
+  detailsWrapper.classList.add("game-sidemenu-details");
+  detailsWrapper.append(cashGenerationWrapper, co2GenerationWrapper);
+
+  return [titleSpan, purchaseButton, detailsWrapper];
 };
 
 const upgradeMenuElements = (icaoCode) => {
@@ -48,9 +81,5 @@ const upgradeMenuElements = (icaoCode) => {
 
   return [titleSpan, upgradesWrapper];
 };
-
-const purchaseAirport = (icaoCode) => {};
-
-const upgradeAirport = (icaoCode, upgrade) => {};
 
 export { displayShop };

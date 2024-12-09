@@ -10,13 +10,11 @@ const createHeader = () => {
   const playerMoneySpan = document.createElement("span");
   playerMoneySpan.classList.add("game-header-money");
   playerMoneySpan.id = "player-money-counter";
-  playerMoneySpan.textContent = "1000.00$";
 
   // Pelaajan co2 päästöt
   const playerCo2Span = document.createElement("span");
   playerCo2Span.classList.add("game-header-co2");
   playerCo2Span.id = "player-co2-counter";
-  playerCo2Span.textContent = "150000kg";
 
   // Lisää elementit headeriin
   gameHeader.appendChild(playerMoneySpan);
@@ -73,6 +71,7 @@ const drawPointsOnMap = (mapWrapper, coordinates) => {
     mapButton.classList.add("game-map-button");
 
     mapButton.addEventListener("click", () => displayShop(x[2]));
+    mapButton.id = x[2];
 
     const point = coordinatesToPercent(x[0], x[1]);
     mapButton.style.left = `calc(${point.x} - 1em)`;

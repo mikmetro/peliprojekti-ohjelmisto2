@@ -48,3 +48,10 @@ def get_airports():
     # connection.close()
 
     return result
+
+def icao_to_id(icao):
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM airports WHERE icao = ?', (icao,))
+    data = cursor.fetchone()[0]
+    return data

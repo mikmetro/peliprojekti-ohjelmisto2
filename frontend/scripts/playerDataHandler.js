@@ -1,4 +1,8 @@
 import { API_URL } from "./constants.js";
+import { ALL_AIRPORTS } from "./preloadAssets.js";
+import { sendAirplane } from "./socketHandler.js";
+
+let playerHandler;
 
 class Player {
   constructor(key, money, co_level, airports) {
@@ -8,23 +12,52 @@ class Player {
     this.airports = airports;
   }
 
-  get key() {
+  getKey() {
     return this.key;
   }
 
-  get money() {
+  getMoney() {
     return this.money;
   }
 
-  get co_level() {
+  getCoLevel() {
     return this.co_level;
   }
 
-  get airports() {
+  getAirports() {
     return this.airports;
   }
 
-  renderData() {}
+  renderData() {
+    const moneyDisplay = document.getElementById("player-money-counter");
+    const co2Display = document.getElementById("player-co2-counter");
+    moneyDisplay.textContent = `${this.money.toFixed(2)}$`;
+    co2Display.textContent = `${this.co_level}kg`;
+  }
+
+  renderAirports() {
+    for (const i of Object.keys(ALL_AIRPORTS)) {
+      if (Object.keys(this.airports).includes(i)) {
+        document.getElementById(i).classList.add("owned");
+      } else if (ALL_AIRPORTS[i].price > this.money) {
+        document.getElementById(i).classList.add("unavailable");
+      } else {
+        document.getElementById(i).classList.add("available");
+      }
+    }
+  }
+
+  updateValues(values) {
+    if ("money" in values) this.money = values.money;
+    if ("co_level" in values) this.co_level = values.co_level;
+    if ("airports" in values) this.airports = values.airports;
+  }
+
+  sendAirplanes() {
+    for (const i of Object.keys(this.airports)) {
+      sendAirplane(i);
+    }
+  }
 }
 
 const loadPlayer = async (key) => {
@@ -33,9 +66,7 @@ const loadPlayer = async (key) => {
 
   if (!data.status) return null;
 
-  const player = new Player(userKey, data.money, data.co_level, data.airports);
-
-  return player;
+  playerHandler = new Player(key, data.money, data.co_level, data.airports);
 };
 
 const createPlayer = async () => {
@@ -48,4 +79,4 @@ const createPlayer = async () => {
   return loadPlayer(userKey);
 };
 
-export { createPlayer, loadPlayer };
+export { createPlayer, loadPlayer, playerHandler };

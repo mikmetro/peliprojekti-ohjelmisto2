@@ -1,5 +1,5 @@
 import db
-from airport import Airport, OwnedAirport
+from airport import OwnedAirport
 
 class User():
     def __init__(self, id):

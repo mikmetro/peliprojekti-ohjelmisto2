@@ -229,6 +229,26 @@ body {
     font-size: 1.2rem;
 }
 
+.game-sidemenu-details {
+    width: 100%;
+}
+
+.game-sidemenu-detail-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.3rem;
+}
+
+.game-sidemenu-detail-wrapper.money-generation {
+    color: #229922;
+}
+
+.game-sidemenu-detail-wrapper.co-generation {
+    color: #666;
+}
+
 .game-map {
     display: flex;
     align-items: center;
@@ -260,8 +280,19 @@ body {
 
 .game-map-button::after {
     content: "";
-    background: red;
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     border-radius: 50%;
+}
+
+.game-map-button.unavailable::after {
+    background: #444;
+}
+
+.game-map-button.available::after {
+    background: #22ee22;
+}
+
+.game-map-button.owned::after {
+    background: #2222dd;
 }

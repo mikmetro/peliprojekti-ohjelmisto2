@@ -1,7 +1,7 @@
 import gameHandler from "./gameHandler.js";
 import { API_URL } from "./constants.js";
 import { sendKey } from "./socketHandler.js";
-import { createPlayer } from "./playerDataHandler.js";
+import { createPlayer, playerHandler } from "./playerDataHandler.js";
 
 const mainMenuHandler = async () => {
   const menuButtons = document.querySelector(".main-menu-buttons");
@@ -17,8 +17,8 @@ const mainMenuHandler = async () => {
 
       const userKeyTextBox = document.createElement("p");
 
-      const player = await createPlayer();
-      const user_ID_key = player.key;
+      await createPlayer();
+      const user_ID_key = playerHandler.getKey();
 
       const userKeys = JSON.parse(localStorage.getItem("userKeys")) || [];
       userKeys.push(user_ID_key);
@@ -26,7 +26,6 @@ const mainMenuHandler = async () => {
       localStorage.setItem("currentKey", user_ID_key);
 
       sendKey();
-      await loadData(user_ID_key);
 
       userKeyTextBox.textContent = user_ID_key;
 

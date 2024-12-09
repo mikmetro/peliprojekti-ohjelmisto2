@@ -4,9 +4,13 @@ import {
   createSideMenu,
   drawPointsOnMap,
 } from "./gameHandlerElements.js";
+import { playerHandler } from "./playerDataHandler.js";
 
 const gameHandler = () => {
   startGame();
+  playerHandler.renderData();
+  playerHandler.renderAirports();
+  playerHandler.sendAirplanes();
 };
 
 const startGame = () => {
