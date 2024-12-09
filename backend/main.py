@@ -51,21 +51,18 @@ def all_upgrades():
 
 @socketio.on('connect')
 def handle_connect():
-    #print(flask.request.sid, "connected")
-    print()
-
+    print(flask.request.sid, "connected")
 
 @socketio.on('disconnect')
 def handle_disconnect():
-    #del socket_connections[flask.request.sid]
-    print()
+    del socket_connections[flask.request.sid]
 
 @socketio.on('set_key')
 def handle_set_key(data):
     user = User(data)
     if user == None:
         return socketio.emit('set_key_response', {'status': False, 'message': 'user not found'})
-    #socket_connections[flask.request.sid] = data
+    socket_connections[flask.request.sid] = data
     socketio.emit('set_key_response', {'status': True, 'message': 'success'})
 
 @socketio.on('purchase')
