@@ -1,8 +1,9 @@
 import gameHandler from "./gameHandler.js";
 import { API_URL } from "./constants.js";
 import { sendKey } from "./socketHandler.js";
+import { createPlayer } from "./playerDataHandler.js";
 
-const mainMenuHandler = () => {
+const mainMenuHandler = async () => {
   const menuButtons = document.querySelector(".main-menu-buttons");
   menuButtons
     .querySelector("#start-game")
@@ -16,19 +17,8 @@ const mainMenuHandler = () => {
 
       const userKeyTextBox = document.createElement("p");
 
-      async function getUserKey() {
-        try {
-          const response = await fetch("http://localhost:5500/user/create");
-          const data = await response.json();
-
-          let userKey = data["id"];
-          return userKey;
-        } catch (error) {
-          console.log("Error in mainMenuHandler: getUserKey() Error on fetch");
-        }
-      }
-
-      let user_ID_key = await getUserKey();
+      const player = await createPlayer();
+      const user_ID_key = player.key;
 
       const userKeys = JSON.parse(localStorage.getItem("userKeys")) || [];
       userKeys.push(user_ID_key);
@@ -36,6 +26,7 @@ const mainMenuHandler = () => {
       localStorage.setItem("currentKey", user_ID_key);
 
       sendKey();
+      await loadData(user_ID_key);
 
       userKeyTextBox.textContent = user_ID_key;
 

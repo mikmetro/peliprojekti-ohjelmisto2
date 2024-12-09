@@ -18,6 +18,10 @@ def init_db():
 def create_user(id):
     connection = create_connection()
     cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users WHERE id = ?', (id,))
+    print(cursor.rowcount)
+    if cursor.rowcount > 0:
+        return False
     cursor.execute('INSERT INTO users (id, money, airports, co_level) VALUES (?, ?, ?, ?)', (id, 0, '[]', 0))
     connection.commit()
     # connection.close()
@@ -34,10 +38,11 @@ def get_airports():
     for i in data:
         result[i[5]] = {
             "name": i[1],
-            "price": None, # None arvot vaihdetaan myöhemmin
-            "co_generation": None,
             "lat": i[6],
             "lng": i[7],
+            "price": i[8],
+            "co_generation": i[9],
+            "cash_generation": i[10]
         }
 
     # connection.close()

@@ -1,5 +1,5 @@
 import db
-from airport import Airport
+from airport import Airport, OwnedAirport
 
 class User():
     def __init__(self, id):
@@ -20,15 +20,24 @@ class User():
         # connection.close()
         return money
 
-    def get_airports(self):
+    def get_airports(self) -> list[OwnedAirport]:
         connection = db.create_connection()
         cursor = connection.cursor()
         airports = []
         cursor.execute('SELECT id, airport_id FROM user_airports WHERE owner = ?', (self.id,))
         for row in cursor.fetchall():
-            airports.append(Airport(row[0]))
+            airports.append(OwnedAirport(row[0], row[1]))
         # connection.close()
         return airports
+
+    def airports_to_dict(self):
+        user_airports = self.get_airports()
+        result = {}
+        for airport in user_airports:
+            result[airport.get_icao()] = {
+                "levels": airport.get_level()
+            }
+        return result
 
     def unlock_airport(self, airportId):
         connection = db.create_connection()
@@ -38,7 +47,7 @@ class User():
         if cursor.fetchone() is not None:
             # connection.close()
             return False # Airport already unlocked, return False and do not unlock it again.
-        cursor.execute('INSERT INTO user_airports (owner, airport_id, level) VALUES (?, ?, ?)', (self.id, airportId, '1'))
+        cursor.execute('INSERT INTO user_airports (owner, airport_id, level) VALUES (?, ?, ?)', (self.id, airportId, '0;0;0'))
         connection.commit()
         # connection.close()
         return True

@@ -23,20 +23,23 @@ socket_connections = {}
 def user_create():
     random_id = str(uuid.uuid4())
     bool = db.create_user(random_id)
+    User(random_id)
     if bool:
         return json.dumps({'id': str(random_id)})
     else:
         return json.dumps({'error': 'User could not be created.'})
 
-@app.route("/user/fetch")
-def fetch_user_data():
-    print(user.get_airports())
-    print(ALL_DEFAULT_AIRPORTS_JSON)
+@app.route("/user/fetch/<id>")
+def fetch_user_data(id):
+    user = User(id)
+    if user == None:
+        return { "status": False }
     return {
-        "Money": user.get_money(),
+        "status": True,
+        "money": user.get_money(),
         "co_level": user.get_co_level(),
-        "airports": {i for i in user.get_airports()}
-        }
+        "airports": user.airports_to_dict()
+    }
 
 @app.route("/game/airports")
 def all_airports():

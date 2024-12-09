@@ -19,7 +19,7 @@ class Airport:
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute(
-            'SELECT country, city, name, latitude, longitude FROM airports WHERE id = ?',
+            'SELECT country, city, name, latitude, longitude, icao, price, co, cash FROM airports WHERE id = ?',
             (self.airportId,)
         )
         self.airport_data = cursor.fetchone()
@@ -36,19 +36,29 @@ class Airport:
     def get_coordinates(self):
         return (self.airport_data[3], self.airport_data[4])
 
-    def get_price(self):
+    def get_icao(self):
         return self.airport_data[5]
+
+    def get_price(self):
+        return self.airport_data[6]
+
+    def get_co(self):
+        return self.airport_data[7]
+
+    def get_cash(self):
+        return self.airport_data[8]
 
 class OwnedAirport(Airport):
     def __init__(self, id, airportId):
         super().__init__(airportId)
         self.id = id
 
-    def get_level(self):
+    def get_level(self) -> list[int]:
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('SELECT level FROM user_airports WHERE airport_id = ?', (self.id,))
+        cursor.execute('SELECT level FROM user_airports WHERE id = ?', (self.id,))
         level = cursor.fetchone()[0]
+        level = [int(i) for i in level.split(";")]
         return level
 
     def set_level(self, level):
