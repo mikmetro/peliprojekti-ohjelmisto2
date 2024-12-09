@@ -8,7 +8,8 @@ from user import User
 from airport import Airport, OwnedAirport
 from upgrades import pre_calculate_upgrades
 
-app = flask.Flask(__name__)
+# DO NOT PUT ANYTHING IMPORTANT IN THE FRONTEND
+app = Flask(__name__, static_folder="../frontend", static_url_path="/")
 CORS(app)
 
 socketio = SocketIO(app, cors_allowed_origins='*')
@@ -18,6 +19,11 @@ ALL_DEFAULT_AIRPORTS_JSON = json.dumps(db.get_airports())
 ALL_UPGRADE_EFFECTS = pre_calculate_upgrades()
 
 socket_connections = {}
+
+# Serves the frontend :/
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 @app.route('/user/create')
 def user_create():
