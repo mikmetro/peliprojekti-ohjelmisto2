@@ -1,5 +1,6 @@
 import gameHandler from "./gameHandler.js";
 import { API_URL } from "./constants.js";
+import { sendKey } from "./socketHandler.js";
 
 const mainMenuHandler = () => {
   const menuButtons = document.querySelector(".main-menu-buttons");
@@ -15,17 +16,15 @@ const mainMenuHandler = () => {
 
       const userKeyTextBox = document.createElement("p");
 
-
-      async function getUserKey(){
-        try{
-          const response = await fetch('http://localhost:5500/user/create');
+      async function getUserKey() {
+        try {
+          const response = await fetch("http://localhost:5500/user/create");
           const data = await response.json();
 
-          let userKey = data['id'];
+          let userKey = data["id"];
           return userKey;
-
-        }catch(error){
-            console.log("Error in mainMenuHandler: getUserKey() Error on fetch");
+        } catch (error) {
+          console.log("Error in mainMenuHandler: getUserKey() Error on fetch");
         }
       }
 
@@ -34,6 +33,9 @@ const mainMenuHandler = () => {
       const userKeys = JSON.parse(localStorage.getItem("userKeys")) || [];
       userKeys.push(user_ID_key);
       localStorage.setItem("userKeys", JSON.stringify(userKeys));
+      localStorage.setItem("currentKey", user_ID_key);
+
+      sendKey();
 
       userKeyTextBox.textContent = user_ID_key;
 

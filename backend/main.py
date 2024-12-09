@@ -7,14 +7,17 @@ import db
 from user import User
 from airport import Airport, OwnedAirport
 from upgrades import pre_calculate_upgrades
+
 app = flask.Flask(__name__)
 CORS(app)
 
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Laitan vaan kaikki default lentokentät variableen, että ei tarvi kysyä databaselta joka request.
 ALL_DEFAULT_AIRPORTS_JSON = json.dumps(db.get_airports())
 ALL_UPGRADE_EFFECTS = pre_calculate_upgrades()
+
+socket_connections = {}
 
 @app.route('/user/create')
 def user_create():
@@ -35,7 +38,19 @@ def all_upgrades():
 
 @socketio.on('connect')
 def handle_connect():
-    print("Client connected")
+    print(flask.request.sid, "connected")
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    del socket_connections[flask.request.sid]
+
+@socketio.on('set_key')
+def handle_set_key(data):
+    user = User(data)
+    if user == None:
+        return socketio.emit('set_key_response', {'status': False, 'message': 'user not found'})
+    socket_connections[flask.request.sid] = data
+    socketio.emit('set_key_response', {'status': True, 'message': 'success'})
 
 @socketio.on('purchase')
 def handle_purchase(data):
@@ -73,11 +88,10 @@ def handle_send(data):
     socketio.emit('send_response', response)
 
 def main():
-    socketio.run(app.run(host='localhost', port=5500), debug=True)
+    socketio.run(app, host='localhost', port=5500)
 
 if __name__ == '__main__':
     db.init_db()
     db.create_user('testuser')
     user = User('testuser')
-    print(user.get_airports()[0].get_country())
     main()

@@ -8,7 +8,7 @@ class User():
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM users WHERE id = ?', (self.id,))
         if cursor.fetchone() is None:
-            raise ValueError('User does not exist')
+            return None
         # connection.close()
         self.unlock_airport(421) # Helsingin lentoasema, default airport.
 
@@ -26,7 +26,7 @@ class User():
         airports = []
         cursor.execute('SELECT id, airport_id FROM user_airports WHERE owner = ?', (self.id,))
         for row in cursor.fetchall():
-            airports.append(Airport(row[0], row[1]))
+            airports.append(Airport(row[0]))
         # connection.close()
         return airports
 

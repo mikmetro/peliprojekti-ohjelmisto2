@@ -19,7 +19,7 @@ class Airport:
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute(
-            'SELECT country, city, name, latitude, longitude, price FROM airports WHERE id = ?',
+            'SELECT country, city, name, latitude, longitude FROM airports WHERE id = ?',
             (self.airportId,)
         )
         self.airport_data = cursor.fetchone()
