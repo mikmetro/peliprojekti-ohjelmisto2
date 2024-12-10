@@ -1,5 +1,7 @@
 import { SOCKET_URL } from "./constants.js";
+import { ALL_AIRPORTS } from "./preloadAssets.js";
 import { playerHandler } from "./playerDataHandler.js";
+import { coordinatesToPercent } from "./gameHandlerElements.js";
 
 const socket = io(SOCKET_URL);
 
@@ -38,6 +40,15 @@ socket.on("upgrade_response", (data) => {
 socket.on("airplane_event", (data) => {
   playerHandler.updateAndRender(data.new_user_data);
   playerHandler.sendAirplanes();
+});
+
+socket.on("send_response", (data) => {
+  if (!data.success) return;
+  const startAirport = ALL_AIRPORTS[data.start];
+  const endAirport = ALL_AIRPORTS[data.destination];
+
+  const startPoint = coordinatesToPercent(startAirport.lat, startAirport.lng);
+  const endPoint = coordinatesToPercent(endAirport.lat, endAirport.lng);
 });
 
 export { sendKey, purchaseAirport, sendAirplane, upgradeAirport };

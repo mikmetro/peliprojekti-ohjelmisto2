@@ -191,7 +191,7 @@ def handle_send(data):
 
     scheduler.add_job(send_airplane, 'date', args=[user.find_airport(airport_id), flask.request.sid, user], run_date=run_time)
 
-    socketio.emit('send_response', {'status': True, 'message': 'success', 'destination': destination_airport})
+    socketio.emit('send_response', {'status': True, 'message': 'success', 'start': data["icao"], 'destination': destination_airport})
 
 def main():
     socketio.run(app, host='localhost', port=5500)
