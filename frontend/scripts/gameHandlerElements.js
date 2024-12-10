@@ -88,4 +88,10 @@ const coordinatesToPercent = (lat, lng) => {
   return { x, y };
 };
 
-export { createHeader, createSideMenu, createMap, drawPointsOnMap };
+export {
+  createHeader,
+  createSideMenu,
+  createMap,
+  drawPointsOnMap,
+  coordinatesToPercent,
+};

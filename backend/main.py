@@ -183,7 +183,7 @@ def handle_send(data):
 
     end = Airport(db.icao_to_id(destination_airport))
 
-    distance = distance_km(start.get_coordinates(), end.get_coordinates()) / 3
+    distance = distance_km(start.get_coordinates(), end.get_coordinates())
 
     run_time = datetime.datetime.fromtimestamp(time.time() + (distance / 1000))
 
