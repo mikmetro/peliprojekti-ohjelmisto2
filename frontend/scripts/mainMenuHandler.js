@@ -1,7 +1,11 @@
 import gameHandler from "./gameHandler.js";
 import { API_URL } from "./constants.js";
 import { sendKey } from "./socketHandler.js";
-import { createPlayer, playerHandler } from "./playerDataHandler.js";
+import {
+  createPlayer,
+  loadPlayer,
+  playerHandler,
+} from "./playerDataHandler.js";
 
 const mainMenuHandler = async () => {
   const menuButtons = document.querySelector(".main-menu-buttons");
@@ -64,5 +68,65 @@ const mainMenuHandler = async () => {
         gameHandler();
       });
     });
+
+  menuButtons.querySelector("#load-game").addEventListener("click", () => {
+    const mainMenu = document.querySelector(".main-menu");
+    mainMenu.innerHTML = "";
+
+    const title = document.createElement("span");
+    title.textContent = "Latest save";
+    title.style.fontSize = "1.5rem";
+    title.style.marginBottom = "0.5rem";
+
+    const keyWrapper = document.createElement("div");
+    keyWrapper.classList.add("mainmenu-key-wrapper");
+
+    keyWrapper.appendChild(title);
+
+    const latestKey = localStorage.getItem("currentKey");
+
+    const saveWrapper = document.createElement("div");
+    saveWrapper.classList.add("mainmenu-save-wrapper", "latest");
+
+    const keySpan = document.createElement("span");
+    keySpan.textContent = latestKey;
+    const button = document.createElement("button");
+    button.textContent = "Load";
+
+    button.addEventListener("click", async () => {
+      await loadPlayer(latestKey);
+      const user_ID_key = playerHandler.getKey();
+      sendKey();
+      document.body.innerHTML = "";
+      gameHandler();
+    });
+
+    saveWrapper.append(keySpan, button);
+    keyWrapper.appendChild(saveWrapper);
+
+    const saveKeys = JSON.parse(localStorage.getItem("userKeys"));
+    for (const key of saveKeys) {
+      const saveWrapper = document.createElement("div");
+      saveWrapper.classList.add("mainmenu-save-wrapper");
+
+      const keySpan = document.createElement("span");
+      keySpan.textContent = key;
+      const button = document.createElement("button");
+      button.textContent = "Load";
+
+      button.addEventListener("click", async () => {
+        await loadPlayer(key);
+        const user_ID_key = playerHandler.getKey();
+        sendKey();
+        document.body.innerHTML = "";
+        gameHandler();
+      });
+
+      saveWrapper.append(keySpan, button);
+      keyWrapper.appendChild(saveWrapper);
+    }
+
+    mainMenu.appendChild(keyWrapper);
+  });
 };
 export default mainMenuHandler();

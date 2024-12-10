@@ -60,6 +60,7 @@ class Player {
     this.renderAirports();
     if (shopSelectedICAO) {
       displayShop(shopSelectedICAO);
+      shopSelectedICAO = undefined;
     }
   }
 

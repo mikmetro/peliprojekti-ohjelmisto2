@@ -1,303 +1,345 @@
 /* Globaalit */
 
 * {
-	box-sizing: border-box;
-	margin: 0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 @font-face {
-	src: url("./assets/Quicksand-Regular.ttf");
-	font-family: "Quicksand";
+    src: url("./assets/Quicksand-Regular.ttf");
+    font-family: "Quicksand";
 }
 
 @font-face {
-	src: url("./assets/RobotoFlex-Regular.ttf");
-	font-family: "RobotoFlex";
+    src: url("./assets/RobotoFlex-Regular.ttf");
+    font-family: "RobotoFlex";
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
 }
 
 .background-gradient {
-	background: radial-gradient(ellipse at 70% 20%, #94b9ff77, #ffffff00 40%),
-		radial-gradient(ellipse at 30% 60%, #94baff77, #ffffff00 60%);
+    background: radial-gradient(ellipse at 70% 20%, #94b9ff77, #ffffff00 40%),
+        radial-gradient(ellipse at 30% 60%, #94baff77, #ffffff00 60%);
 }
 
 /* Main menu */
 
 .main-menu {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 3em;
-	width: 100%;
-	flex: 1;
-	backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+    width: 100%;
+    flex: 1;
+    backdrop-filter: blur(4px);
 }
 
 .main-menu > h1 {
-	font-size: 3.5rem;
-	font-family: "Quicksand";
+    font-size: 3.5rem;
+    font-family: "Quicksand";
 }
 
 .main-menu-buttons {
-	max-width: 300px;
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-	align-items: center;
-	padding: 0 1em;
-	width: 100%;
-	font-family: "RobotoFlex";
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    padding: 0 1em;
+    width: 100%;
+    font-family: "RobotoFlex";
 }
 
 .main-menu-button {
-	display: block;
-	width: 100%;
-	background: transparent;
-	border-radius: 99px;
-	font-size: 1.6rem;
-	color: black;
-	border: 2px solid black;
-	cursor: pointer;
-	padding: 0.2em;
-	transition: 0.1s;
+    display: block;
+    width: 100%;
+    background: transparent;
+    border-radius: 99px;
+    font-size: 1.6rem;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    padding: 0.2em;
+    transition: 0.1s;
 }
 
 .main-menu-button:hover {
-	color: #8888ff;
+    color: #8888ff;
 }
 
 .main-menu-airplane {
-	position: absolute;
-	width: 1000px;
-	z-index: -1;
-	left: -100px;
-	top: 100px;
-	animation: hover 5s ease-in-out infinite alternate;
+    position: absolute;
+    width: 1000px;
+    z-index: -1;
+    left: -100px;
+    top: 100px;
+    animation: hover 5s ease-in-out infinite alternate;
 }
 
 .main-menu-userkey {
-	background: rgba(128, 192, 128, 0.8);
-	padding: 1em;
-	font-size: 1.4rem;
-	font-family: "Quicksand";
-	border-radius: 8px;
-	font-weight: bold;
+    background: rgba(128, 192, 128, 0.8);
+    padding: 1em;
+    font-size: 1.4rem;
+    font-family: "Quicksand";
+    border-radius: 8px;
+    font-weight: bold;
 }
 
 .main-menu-continue,
 .game-sidemenu-purchase {
-	border: 3px solid #00e700;
-	font-size: 1.5rem;
-	border-radius: 99px;
-	padding: 0.5em 2em;
-	background: transparent;
-	color: black;
-	font-family: "Quicksand";
-	transition: 0.1s;
-	cursor: pointer;
-	font-weight: 900;
+    border: 3px solid #00e700;
+    font-size: 1.5rem;
+    border-radius: 99px;
+    padding: 0.5em 2em;
+    background: transparent;
+    color: black;
+    font-family: "Quicksand";
+    transition: 0.1s;
+    cursor: pointer;
+    font-weight: 900;
 }
 
 .main-menu-continue:hover,
 .game-sidemenu-purchase:hover {
-	background: #00e700;
+    background: #00e700;
 }
 
 .main-menu-create-game {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
 }
 
 .main-menu-create-game > p:first-child {
-	font-size: 1.8rem;
-	font-weight: 900;
-	font-family: "Quicksand";
-	background: #ffffff77;
-	backdrop-filter: blur(8px);
-	padding: 0.2rem;
-	border-radius: 8px;
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: "Quicksand";
+    background: #ffffff77;
+    backdrop-filter: blur(8px);
+    padding: 0.2rem;
+    border-radius: 8px;
+}
+
+.mainmenu-key-wrapper {
+    border-radius: 1rem;
+    background: rgba(128, 192, 128, 0.8);
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    font-family: "Quicksand";
+    gap: 0.5em;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.mainmenu-save-wrapper {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1em;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.mainmenu-save-wrapper.latest {
+    border-radius: 8px;
+    background: #8888ff;
+    box-shadow: 0 0 0 10px #8888ff;
+    margin-bottom: 1em;
+}
+
+.mainmenu-save-wrapper button {
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    font-family: "Quicksand";
+    background: transparent;
+    border: 2px solid black;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: 0.2s;
+}
+
+.mainmenu-save-wrapper button:hover {
+    color: #8888ff;
+}
+
+.mainmenu-save-wrapper.latest button:hover {
+    color: white;
 }
 
 @keyframes hover {
-	to {
-		top: 150px;
-	}
+    to {
+        top: 150px;
+    }
 }
 
 @keyframes main-menu-transition {
-	70% {
-		transform: translateY(5vh);
-	}
-	85% {
-		transform: translateY(1vh);
-	}
-	100% {
-		transform: translateY(0);
-	}
+    70% {
+        transform: translateY(5vh);
+    }
+    85% {
+        transform: translateY(1vh);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /* Peli */
 
 .game-container {
-	display: grid;
-	flex: 1;
-	width: 100%;
-	grid-template-rows: min-content 1fr;
-	grid-template-columns: 24em 1fr;
-	padding: 1em 0.5em;
-	gap: 1em;
+    display: grid;
+    flex: 1;
+    width: 100%;
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: 24em 1fr;
+    padding: 1em 0.5em;
+    gap: 1em;
 }
 
 .game-header {
-	display: flex;
-	grid-column: 1 / 3;
-	font-family: "Quicksand";
-	align-items: center;
-	justify-self: center;
-	padding: 0.6em 1.2em;
-	width: 100%;
-	max-width: 700px;
-	font-size: 1.6rem;
-	font-weight: 900;
-	gap: 3em;
-	border-radius: 99px;
-	border: 2px solid #55555f;
+    display: flex;
+    grid-column: 1 / 3;
+    font-family: "Quicksand";
+    align-items: center;
+    justify-self: center;
+    padding: 0.6em 1.2em;
+    width: 100%;
+    max-width: 700px;
+    font-size: 1.6rem;
+    font-weight: 900;
+    gap: 3em;
+    border-radius: 99px;
+    border: 2px solid #55555f;
 }
 
 .game-header-money {
-	color: #009f00;
+    color: #009f00;
 }
 
 .game-header-co2 {
-	color: #444;
+    color: #444;
 }
 
 .game-sidemenu {
-	display: flex;
-	min-height: 600px;
-	height: fit-content;
-	align-self: center;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	padding: 0.5em;
-	gap: 1em;
-	text-align: center;
-	font-family: "Quicksand";
-	font-size: 1.8rem;
-	border-radius: 1em;
-	border: 2px solid #55555f;
-	margin: 0 0.4em;
+    display: flex;
+    min-height: 600px;
+    height: fit-content;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0.5em;
+    gap: 1em;
+    text-align: center;
+    font-family: "Quicksand";
+    font-size: 1.8rem;
+    border-radius: 1em;
+    border: 2px solid #55555f;
+    margin: 0 0.4em;
 }
 
 .game-sidemenu-upgrades {
-	flex: 1;
-	justify-content: space-between;
-	display: grid;
-	grid-template: repeat(3, 1fr) / 1fr;
-	gap: 0.5em;
-	width: 100%;
+    flex: 1;
+    justify-content: space-between;
+    display: grid;
+    grid-template: repeat(3, 1fr) / 1fr;
+    gap: 0.5em;
+    width: 100%;
 }
 
 .game-sidemenu-upgrade {
-	border: 2px solid black;
-	border-radius: 16px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0.5em;
+    border: 2px solid black;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5em;
 }
 
 .game-sidemenu-upgrade > span {
-	font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .game-sidemenu-upgrade > button {
-	width: min-content;
-	padding: 0.2em 1em;
-	font-size: 1.2rem;
+    width: min-content;
+    padding: 0.2em 1em;
+    font-size: 1.2rem;
 }
 
 .game-sidemenu-details {
-	width: 100%;
+    width: 100%;
 }
 
 .game-sidemenu-detail-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-	justify-content: space-between;
-	font-size: 1.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.3rem;
 }
 
 .game-sidemenu-detail-wrapper.money-generation {
-	color: #229922;
+    color: #229922;
 }
 
 .game-sidemenu-detail-wrapper.co-generation {
-	color: #666;
+    color: #666;
 }
 
 .game-map {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 .game-map > div {
-	position: relative;
+    position: relative;
 }
 
-.plane-image {
-	width: 40px;
-	position: absolute;
-}
-
-.game-map-image {
-	display: block;
-	object-fit: contain;
-	width: 100%;
+.game-map img {
+    display: block;
+    object-fit: contain;
+    width: 100%;
 }
 
 .game-map-button {
-	width: 2.5em;
-	height: 2.5em;
-	cursor: pointer;
-	border: none;
-	border-radius: 50%;
-	position: absolute;
-	background: transparent;
-	display: grid;
-	place-items: center;
+    width: 2.5em;
+    height: 2.5em;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    background: transparent;
+    display: grid;
+    place-items: center;
 }
 
 .game-map-button::after {
-	content: "";
-	width: 1.2em;
-	height: 1.2em;
-	border-radius: 50%;
+    content: "";
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
 }
 
 .game-map-button.unavailable::after {
-	background: #444;
+    background: #444;
 }
 
 .game-map-button.available::after {
-	background: #22ee22;
+    background: #22ee22;
 }
 
 .game-map-button.owned::after {
-	background: #2222dd;
+    background: #2222dd;
 }
