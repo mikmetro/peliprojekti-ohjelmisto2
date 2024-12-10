@@ -2,7 +2,7 @@ import { ALL_AIRPORTS, ALL_UPGRADES } from "./preloadAssets.js";
 import { purchaseAirport, upgradeAirport } from "./socketHandler.js";
 import { playerHandler } from "./playerDataHandler.js";
 
-let shopSelectedICAO = undefined;
+let shopSelectedICAO = null;
 
 const displayShop = (icaoCode) => {
   const sideMenu = document.querySelector(".game-sidemenu");
@@ -13,6 +13,10 @@ const displayShop = (icaoCode) => {
       ? upgradeMenuElements(icaoCode)
       : purchaseMenuElements(icaoCode);
   sideMenu.append(...contents);
+};
+
+const setSelectetedToUndefined = () => {
+  shopSelectedICAO = undefined;
 };
 
 const purchaseMenuElements = (icaoCode) => {
@@ -119,4 +123,4 @@ const upgradeMenuElements = (icaoCode) => {
   return [titleSpan, upgradesWrapper];
 };
 
-export { displayShop, shopSelectedICAO };
+export { displayShop, shopSelectedICAO, setSelectetedToUndefined };

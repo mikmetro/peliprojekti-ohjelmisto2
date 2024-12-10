@@ -1,7 +1,11 @@
 import { API_URL } from "./constants.js";
 import { ALL_AIRPORTS } from "./preloadAssets.js";
 import { sendAirplane } from "./socketHandler.js";
-import { displayShop, shopSelectedICAO } from "./shopHandler.js";
+import {
+  displayShop,
+  shopSelectedICAO,
+  setSelectetedToUndefined,
+} from "./shopHandler.js";
 
 let playerHandler;
 
@@ -60,7 +64,7 @@ class Player {
     this.renderAirports();
     if (shopSelectedICAO) {
       displayShop(shopSelectedICAO);
-      shopSelectedICAO = undefined;
+      setSelectetedToUndefined();
     }
   }
 

@@ -42,8 +42,8 @@ socket.on("airplane_event", (data) => {
   playerHandler.sendAirplanes();
 });
 
+/*
 socket.on("send_response", (data) => {
-  /*
   if (!data.status) return;
   console.log(data);
   // Extract start and end airports
@@ -63,23 +63,30 @@ socket.on("send_response", (data) => {
       const img = document.createElement("img");
       img.src = "../assets/airplane-icon.jpg"; // Ensure this path is correct
       img.alt = "airplane";
-      img.width = 50; // Adjust the width of the airplane image
       img.classList.add("plane-image");
 
       // Set the initial position of the image based on start point
       img.style.position = "absolute";
+
+      img.style.width = "24px";
+      img.style.top = startPoint.y;
+      img.style.left = startPoint.x;
+      img.style.transitionDuration = `3s`;
       appendToThis.appendChild(img);
 
-      img.style.transform = `translateX(calc(${startPoint.x} - 1rem)) translateY(calc(${startPoint.y} - 1rem))`;
-      img.style.transition = `transform 1s ease-in-out`;
-      img.style.transform = `translateX(calc(${endPoint.x} - 1rem)) translateY(calc(${endPoint.y} - 1rem))`;
+      setTimeout(() => {
+        img.top = endPoint.y;
+        img.left = endPoint.x;
+      }, 1);
+
       console.log(img);
     } else {
       console.error("No div found inside .game-map");
     }
   } else {
     console.error("No element with class 'game-map' found.");
-    }*/
+  }
 });
+*/
 
 export { sendKey, purchaseAirport, sendAirplane, upgradeAirport };
