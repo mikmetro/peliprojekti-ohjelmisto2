@@ -26,12 +26,9 @@ def floor_by_step(value: float, step: float) -> float:
     return value - (value % step)
 
 def ceil_by_step(value: float, step: float) -> float:
-    return floor_by_step(value, step) + step
+    return value + step - (value % step) - step
 
 def get_upgrade_info(level: int, name: str) -> dict[str, float] | None:
-
-    print("MISSING MAX UPGRADE LEVEL CHECKS") # HUOMAA TÄMÄ
-
     if name not in UPGRADE_BASE_VALUES:
         return None
 

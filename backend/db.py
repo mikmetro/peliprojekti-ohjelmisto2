@@ -1,8 +1,9 @@
 import sqlite3
-con = sqlite3.connect('database.db', check_same_thread=False) # check_same_thread on pois, koska se muuten antoi erroreita, että objektit on haettu eri threadissä, kuin missä ne on tehty.
+#con = sqlite3.connect('database.db', check_same_thread=False) # check_same_thread on pois, koska se muuten antoi erroreita, että objektit on haettu eri threadissä, kuin missä ne on tehty.
 
 def create_connection():
-    return con
+    return sqlite3.connect('database.db', check_same_thread=False)
+
 def init_db():
     connection = create_connection()
     cursor = connection.cursor()
@@ -13,7 +14,7 @@ def init_db():
     cursor.execute('CREATE INDEX IF NOT EXISTS id_index_user_airports ON user_airports (id)')
 
     connection.commit()
-    # connection.close()
+    connection.close()
 
 def create_user(id):
     connection = create_connection()
@@ -24,7 +25,7 @@ def create_user(id):
         return False
     cursor.execute('INSERT INTO users (id, money, airports, co_level) VALUES (?, ?, ?, ?)', (id, 0, '[]', 0))
     connection.commit()
-    # connection.close()
+    connection.close()
     return True
 
 def get_airports():
@@ -45,7 +46,7 @@ def get_airports():
             "cash_generation": i[10]
         }
 
-    # connection.close()
+    connection.close()
 
     return result
 

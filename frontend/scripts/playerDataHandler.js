@@ -1,6 +1,7 @@
 import { API_URL } from "./constants.js";
 import { ALL_AIRPORTS } from "./preloadAssets.js";
 import { sendAirplane } from "./socketHandler.js";
+import { displayShop, shopSelectedICAO } from "./shopHandler.js";
 
 let playerHandler;
 
@@ -51,6 +52,15 @@ class Player {
     if ("money" in values) this.money = values.money;
     if ("co_level" in values) this.co_level = values.co_level;
     if ("airports" in values) this.airports = values.airports;
+  }
+
+  updateAndRender(values) {
+    this.updateValues(values);
+    this.renderData();
+    this.renderAirports();
+    if (shopSelectedICAO) {
+      displayShop(shopSelectedICAO);
+    }
   }
 
   sendAirplanes() {

@@ -23,6 +23,7 @@ class Airport:
             (self.airportId,)
         )
         self.airport_data = cursor.fetchone()
+        connection.close()
 
     def get_country(self):
         return self.airport_data[0]
@@ -57,13 +58,16 @@ class OwnedAirport(Airport):
         connection = db.create_connection()
         cursor = connection.cursor()
         cursor.execute('SELECT level FROM user_airports WHERE id = ?', (self.id,))
-        level = cursor.fetchone()[0]
-        level = [int(i) for i in level.split(";")]
+        level = cursor.fetchone()
+        connection.close()
+        level = [int(i) for i in level[0].split(";")]
         return level
 
     def set_level(self, level):
+        level = ";".join([str(i) for i in level])
         connection = db.create_connection()
         cursor = connection.cursor()
-        cursor.execute('UPDATE user_airports SET level = ? WHERE airport_id = ?', (level, self.id))
+        cursor.execute('UPDATE user_airports SET level = ? WHERE id = ?', (level, self.id))
         connection.commit()
+        connection.close()
         return True

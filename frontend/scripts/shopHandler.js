@@ -1,12 +1,17 @@
-import { ALL_AIRPORTS } from "./preloadAssets.js";
-import { purchaseAirport } from "./socketHandler.js";
+import { ALL_AIRPORTS, ALL_UPGRADES } from "./preloadAssets.js";
+import { purchaseAirport, upgradeAirport } from "./socketHandler.js";
+import { playerHandler } from "./playerDataHandler.js";
+
+let shopSelectedICAO = undefined;
 
 const displayShop = (icaoCode) => {
   const sideMenu = document.querySelector(".game-sidemenu");
   sideMenu.innerHTML = "";
 
-  const contents = purchaseMenuElements(icaoCode); // Testi funktio, myöhemmin pitää lisää tarkastukset
-
+  const contents =
+    icaoCode in playerHandler.getAirports()
+      ? upgradeMenuElements(icaoCode)
+      : purchaseMenuElements(icaoCode);
   sideMenu.append(...contents);
 };
 
@@ -19,6 +24,7 @@ const purchaseMenuElements = (icaoCode) => {
   purchaseButton.classList.add("game-sidemenu-purchase");
 
   purchaseButton.addEventListener("click", () => {
+    shopSelectedICAO = icaoCode;
     purchaseAirport(icaoCode);
   });
 
@@ -62,18 +68,49 @@ const upgradeMenuElements = (icaoCode) => {
 
   // --- Väliaikanen testi miltä päivitys menu näyttää ---
   const buttonNames = ["Income", "Environmentalist", "Security"];
+  const selectedAirport = playerHandler.getAirports()[icaoCode];
   for (let i = 0; i < 3; i++) {
     const upgradeCard = document.createElement("div");
     upgradeCard.classList.add("game-sidemenu-upgrade");
 
+    const level = selectedAirport["levels"][i];
+    const nextLevel = Math.min(10, level + 1);
     const upgradeTitle = document.createElement("span");
-    upgradeTitle.textContent = `${buttonNames[i]} Upgrade`;
+    upgradeTitle.textContent = `${buttonNames[i]} ${level}/10`;
 
     const upgradeButton = document.createElement("button");
     upgradeButton.textContent = "Purchase";
     upgradeButton.classList.add("game-sidemenu-purchase");
 
-    upgradeCard.append(upgradeTitle, upgradeButton);
+    let upgradeKey;
+    let effectDisplay;
+    switch (i) {
+      case 0:
+        upgradeKey = "income";
+        effectDisplay = `${ALL_UPGRADES[upgradeKey][nextLevel]["effect"]}x`;
+        break;
+      case 1:
+        upgradeKey = "co2decrease";
+        effectDisplay = `-${ALL_UPGRADES[upgradeKey][nextLevel]["effect"]}kg`;
+        break;
+      case 2:
+        upgradeKey = "security";
+        effectDisplay = `-${ALL_UPGRADES[upgradeKey][nextLevel]["effect"] * 100}%`;
+        break;
+    }
+
+    const costSpan = document.createElement("span");
+    costSpan.textContent = `Cost ${ALL_UPGRADES[upgradeKey][nextLevel]["price"]}$`;
+    const effectSpan = document.createElement("span");
+
+    effectSpan.textContent = `Effect ${effectDisplay}`;
+
+    upgradeButton.addEventListener("click", () => {
+      shopSelectedICAO = icaoCode;
+      upgradeAirport(icaoCode, i);
+    });
+
+    upgradeCard.append(upgradeTitle, costSpan, effectSpan, upgradeButton);
 
     upgradesWrapper.appendChild(upgradeCard);
   }
@@ -82,4 +119,4 @@ const upgradeMenuElements = (icaoCode) => {
   return [titleSpan, upgradesWrapper];
 };
 
-export { displayShop };
+export { displayShop, shopSelectedICAO };
